@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 14, 2012 4:27:37 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="net.haustov.hobgoblin.data.Product" table="product" catalog="hobgoblin">
+        <id name="idproduct" type="java.lang.Integer">
+            <column name="idproduct" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="units" class="net.haustov.hobgoblin.data.Units" fetch="select" lazy="proxy">
+            <column name="idunits" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="Name" length="45" />
+        </property>
+        <property name="image" type="binary">
+            <column name="image" />
+        </property>
+        <set name="purchases" inverse="true" lazy="true">
+            <key>
+                <column name="idproduct" not-null="true" />
+            </key>
+            <one-to-many class="net.haustov.hobgoblin.data.Purchase" />
+        </set>
+        <set name="orders" inverse="true" lazy="true">
+            <key>
+                <column name="idproduct" not-null="true" />
+            </key>
+            <one-to-many class="net.haustov.hobgoblin.data.Order" />
+        </set>
+        <set name="stores" inverse="true" lazy="true">
+            <key>
+                <column name="idproduct" not-null="true" />
+            </key>
+            <one-to-many class="net.haustov.hobgoblin.data.Store" />
+        </set>
+    </class>
+</hibernate-mapping>

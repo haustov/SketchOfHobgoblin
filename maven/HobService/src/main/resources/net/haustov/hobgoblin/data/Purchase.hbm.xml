@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 14, 2012 4:27:37 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="net.haustov.hobgoblin.data.Purchase" table="purchase" catalog="hobgoblin">
+        <id name="idpurchase" type="int">
+            <column name="idpurchase" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="product" class="net.haustov.hobgoblin.data.Product" fetch="select" lazy="proxy">
+            <column name="idproduct" not-null="true" />
+        </many-to-one>
+        <many-to-one name="user" class="net.haustov.hobgoblin.data.User" fetch="select" lazy="proxy">
+            <column name="iduser" not-null="true">
+                <comment>Who is purchasing</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="order" class="net.haustov.hobgoblin.data.Order" update="false" insert="false" fetch="select" lazy="proxy">
+            <column name="iduser" not-null="true">
+                <comment>Who is purchasing</comment>
+            </column>
+        </many-to-one>
+        <property name="idorder" type="java.lang.Integer">
+            <column name="idorder">
+                <comment>Order associated with this purchase (can be null)</comment>
+            </column>
+        </property>
+        <property name="amount" type="big_decimal">
+            <column name="amount" precision="10">
+                <comment>Amount bought</comment>
+            </column>
+        </property>
+        <property name="date" type="timestamp">
+            <column name="date" length="19">
+                <comment>Date of buying</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

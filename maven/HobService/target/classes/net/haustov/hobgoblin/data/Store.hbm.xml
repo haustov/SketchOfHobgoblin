@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 14, 2012 4:27:37 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="net.haustov.hobgoblin.data.Store" table="store" catalog="hobgoblin">
+        <id name="idstore" type="int">
+            <column name="idstore" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="product" class="net.haustov.hobgoblin.data.Product" fetch="select" lazy="proxy">
+            <column name="idproduct" not-null="true" />
+        </many-to-one>
+        <many-to-one name="user" class="net.haustov.hobgoblin.data.User" fetch="select" lazy="proxy">
+            <column name="iduser" not-null="true">
+                <comment>User who is responsible for changes in stored amount (entered rest manually or made a purchase)</comment>
+            </column>
+        </many-to-one>
+        <property name="amount" type="big_decimal">
+            <column name="amount" precision="10" not-null="true">
+                <comment>Amount of product or quantity of products currently stored at home</comment>
+            </column>
+        </property>
+        <property name="date" type="timestamp">
+            <column name="date" length="19" not-null="true">
+                <comment>Date of record</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 14, 2012 4:27:37 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="net.haustov.hobgoblin.data.User" table="user" catalog="hobgoblin">
+        <id name="iduser" type="java.lang.Integer">
+            <column name="iduser" />
+            <generator class="identity" />
+        </id>
+        <property name="login" type="string">
+            <column name="Login" length="50" not-null="true" unique="true" />
+        </property>
+        <property name="passwordHash" type="string">
+            <column name="PasswordHash" length="200" />
+        </property>
+        <property name="firstName" type="string">
+            <column name="FirstName" length="45" />
+        </property>
+        <property name="lastName" type="string">
+            <column name="LastName" length="45" />
+        </property>
+        <set name="orders" inverse="true" lazy="true">
+            <key>
+                <column name="iduser" not-null="true">
+                    <comment>User who has ordered the product</comment>
+                </column>
+            </key>
+            <one-to-many class="net.haustov.hobgoblin.data.Order" />
+        </set>
+        <set name="stores" inverse="true" lazy="true">
+            <key>
+                <column name="iduser" not-null="true">
+                    <comment>User who is responsible for changes in stored amount (entered rest manually or made a purchase)</comment>
+                </column>
+            </key>
+            <one-to-many class="net.haustov.hobgoblin.data.Store" />
+        </set>
+        <set name="purchases" inverse="true" lazy="true">
+            <key>
+                <column name="iduser" not-null="true">
+                    <comment>Who is purchasing</comment>
+                </column>
+            </key>
+            <one-to-many class="net.haustov.hobgoblin.data.Purchase" />
+        </set>
+    </class>
+</hibernate-mapping>

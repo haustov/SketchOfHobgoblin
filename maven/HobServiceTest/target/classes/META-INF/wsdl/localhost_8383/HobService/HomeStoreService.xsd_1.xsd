@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.1.1-b09 (branches/2.1-6834; 2011-07-16T17:14:48+0000) JAXWS-RI/2.2.5-promoted-b04 JAXWS/2.2. --><xs:schema xmlns:tns="http://hobservice.hobgoblin.haustov.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://hobservice.hobgoblin.haustov.net/">
+
+<xs:element name="test" type="tns:test"/>
+
+<xs:element name="testArray" type="tns:testArray"/>
+
+<xs:element name="testArrayResponse" type="tns:testArrayResponse"/>
+
+<xs:element name="testResponse" type="tns:testResponse"/>
+
+<xs:complexType name="testArray">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="testArrayResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:product" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="product">
+<xs:sequence>
+<xs:element name="idproduct" type="xs:int" minOccurs="0"/>
+<xs:element name="image" type="xs:base64Binary" minOccurs="0"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="orders" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="purchases" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="stores" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="units" type="tns:units" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="units">
+<xs:sequence>
+<xs:element name="idunits" type="xs:int" minOccurs="0"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="products" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="test">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="testResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

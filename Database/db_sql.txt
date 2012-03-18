@@ -1,0 +1,131 @@
+CREATE  TABLE `hobgoblin`.`user` (
+  `iduser` INT NOT NULL AUTO_INCREMENT ,
+  `Login` VARCHAR(50) NOT NULL ,
+  `PasswordHash` VARCHAR(200) NULL ,
+  `FirstName` VARCHAR(45) NULL ,
+  `LastName` VARCHAR(45) NULL ,
+  PRIMARY KEY (`Id`) ,
+  UNIQUE INDEX `Login_UNIQUE` (`Login` ASC) )
+COMMENT = 'Users of the system';
+
+
+CREATE TABLE `product` (
+  `idproduct` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(45) DEFAULT NULL,
+  `idunits` int(11) DEFAULT NULL,
+  `image` blob,
+  PRIMARY KEY (`idproduct`)
+) COMMENT='Description of products';
+
+
+CREATE  TABLE `hobgoblin`.`units` (
+  `idunits` INT NOT NULL AUTO_INCREMENT ,
+  `Name` VARCHAR(45) NULL ,
+  PRIMARY KEY (`idunits`) )
+COMMENT = 'Units of measure for products';
+
+
+CREATE  TABLE `hobgoblin`.`order` (
+  `idorder` INT NOT NULL AUTO_INCREMENT ,
+  `idproduct` INT NOT NULL ,
+  `iduser` INT NOT NULL COMMENT 'User who has ordered the product' ,
+  `amount` DECIMAL(10,2) NULL COMMENT 'Amount to buy' ,
+  `date` DATETIME NULL COMMENT 'Date when the user has ordered the product' ,
+  PRIMARY KEY (`idorder`) )
+COMMENT = 'Orders for buying products';
+
+
+CREATE TABLE `hobgoblin`.`purchase` (
+  `idpurchase` int(11) NOT NULL,
+  `idproduct` int(11) NOT NULL,
+  `iduser` int(11) DEFAULT NULL,
+  `idorder` int(11) DEFAULT NULL,
+  `amount` decimal(10,2) DEFAULT NULL COMMENT 'Amount bought',
+  `date` datetime DEFAULT NULL COMMENT 'Date of buying',
+  PRIMARY KEY (`idpurchase`)
+) COMMENT='Products bought';
+
+
+CREATE TABLE `store` (
+  `idstore` int(11) NOT NULL,
+  `idproduct` int(11) NOT NULL,
+  `amount` decimal(10,2) NOT NULL COMMENT 'Amount of product or quantity of products currently stored at home',
+  `date` datetime NOT NULL COMMENT 'Date of record',
+  `iduser` int(11) NOT NULL COMMENT 'User who is responsible for changes in stored amount (entered rest manually or made a purchase)',
+  PRIMARY KEY (`idstore`),
+  KEY `StoreProduct` (`idproduct`),
+  CONSTRAINT `StoreProduct` FOREIGN KEY (`idproduct`) REFERENCES `product` (`idproduct`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) COMMENT='History of changes in amount of products stored at home';
+
+
+
+
+ALTER TABLE `hobgoblin`.`store` 
+  ADD CONSTRAINT `StoreProduct`
+  FOREIGN KEY (`idproduct` )
+  REFERENCES `hobgoblin`.`product` (`idproduct` )
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION
+, ADD INDEX `StoreProduct` (`idproduct` ASC) ;
+
+ALTER TABLE `hobgoblin`.`store` 
+  ADD CONSTRAINT `StoreUser`
+  FOREIGN KEY (`iduser` )
+  REFERENCES `hobgoblin`.`user` (`iduser` )
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION
+, ADD INDEX `StoreUser` (`iduser` ASC) ;
+
+
+ALTER TABLE `hobgoblin`.`product` 
+  ADD CONSTRAINT `ProductUnits`
+  FOREIGN KEY (`idunits` )
+  REFERENCES `hobgoblin`.`units` (`idunits` )
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION
+, ADD INDEX `ProductUnits` (`idunits` ASC) ;
+
+
+ALTER TABLE `hobgoblin`.`order` 
+  ADD CONSTRAINT `OrderProduct`
+  FOREIGN KEY (`idproduct` )
+  REFERENCES `hobgoblin`.`product` (`idproduct` )
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION
+, ADD INDEX `OrderProduct` (`idproduct` ASC) ;
+
+ALTER TABLE `hobgoblin`.`order` 
+  ADD CONSTRAINT `OrderUser`
+  FOREIGN KEY (`iduser` )
+  REFERENCES `hobgoblin`.`user` (`iduser` )
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION
+, ADD INDEX `OrderUser` (`iduser` ASC) ;
+
+
+ALTER TABLE `hobgoblin`.`purchase` 
+  ADD CONSTRAINT `PurchaseProduct`
+  FOREIGN KEY (`idproduct` )
+  REFERENCES `hobgoblin`.`product` (`idproduct` )
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION
+, ADD INDEX `PurchaseProduct` (`idproduct` ASC) ;
+
+ALTER TABLE `hobgoblin`.`purchase` 
+  ADD CONSTRAINT `PurchaseUser`
+  FOREIGN KEY (`iduser` )
+  REFERENCES `hobgoblin`.`user` (`iduser` )
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION
+, ADD INDEX `PurchaseUser` (`iduser` ASC) ;
+
+ALTER TABLE `hobgoblin`.`purchase` 
+  ADD CONSTRAINT `PurchaseOrder`
+  FOREIGN KEY (`iduser` )
+  REFERENCES `hobgoblin`.`order` (`idorder` )
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION
+, ADD INDEX `PurchaseOrder` (`idorder` ASC) ;
+
+
+
